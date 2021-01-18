@@ -1,5 +1,6 @@
 package com.tywh.httpserver.core;
 
+import com.sun.javax.servlet.Servlet;
 import com.tywh.httpserver.util.Logger;
 import org.tywh.oa.servlet.LoginServlet;
 
@@ -32,11 +33,10 @@ public class RequestHandler implements Runnable{
                     servletPath = requestURI.split("\\?")[0];
                 }
                 String webAppName = servletPath.split("/")[1];
-
-                if ("/oa/login".equals(servletPath)) {
-                    LoginServlet loginServlet = new LoginServlet();
-                    loginServlet.service();
-                }
+                String urlPattern = servletPath.substring(1 + webAppName.length());
+                String className = WebParser.servletMaps.get(webAppName).get(urlPattern);
+                Servlet servlet = (Servlet)Class.forName(className).newInstance();
+                servlet.service();
             }
             pw.flush();
         } catch(Exception e) {
