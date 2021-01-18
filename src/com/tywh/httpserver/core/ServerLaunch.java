@@ -30,6 +30,7 @@ public class ServerLaunch {
         try {
             Logger.writeLog("please wait for seconds, server is starting....");
             long fromTime = System.currentTimeMillis();
+            WebParser.parse(new String[]{"oa"});
             serverSocket = new ServerSocket(ServerParser.getServerPort());
             Logger.writeLog("server port : " + ServerParser.getServerPort());
             long endTime = System.currentTimeMillis();
