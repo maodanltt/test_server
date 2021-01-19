@@ -36,7 +36,11 @@ public class RequestHandler implements Runnable{
                 String urlPattern = servletPath.substring(1 + webAppName.length());
                 String className = WebParser.servletMaps.get(webAppName).get(urlPattern);
                 Servlet servlet = (Servlet)Class.forName(className).newInstance();
-                servlet.service();
+                pw.print("HTTP/1.1 200 ok\n");
+                pw.print("Content-Type: text/html;charset=utf-8\n\n");
+                ServerResponse serverResponse = new ServerResponse();
+                serverResponse.setPrintWriter(pw);
+                servlet.service(serverResponse);
             }
             pw.flush();
         } catch(Exception e) {
